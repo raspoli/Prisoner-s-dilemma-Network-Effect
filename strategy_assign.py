@@ -14,13 +14,9 @@ def strategy_assign(N,strategy_list,frac_list=0):
     if frac_list==0:
         frac_list=np.ones(N)
         frac_list*=1/ns
+    last=0
     for s in range(ns):
-        for i in range(int(N*frac_list[s])):
-            not_assigned=True;
-            while(not_assigned):
-                r=np.random.randint(N)
-                if S[r]==0:
-                    S[r]=strategy_list[s]
-                    not_assigned=False
+        S[last:N*frac_list[s]]=strategy_list[s]
+        last=N*frac_list[s]
     S[np.where(S==0)]=strategy_list[np.random.randint(ns)]
     return S
