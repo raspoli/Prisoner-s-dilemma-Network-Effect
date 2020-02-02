@@ -22,16 +22,17 @@ def network_generator(network_type, node, probability = None, neighbors = None):
 
     '''
     if network_type==1:
-        G = nx.generators.lattice.grid_2d_graph(m=np.sqrt(node),n=n,periodic=True)
+        n=int(np.sqrt(node))
+        G = nx.generators.lattice.grid_2d_graph(m=n,n=n,periodic=True)
     elif network_type==2:
         G = nx.generators.random_graphs.erdos_renyi_graph(n=node,p=probability)
     elif network_type==3:
         G = nx.generators.random_graphs.watts_strogatz_graph(n=node,k=neighbors, p=probability)
     elif network_type==4:
         G = nx.generators.scale_free_graph(n=node)
-    else
+    else:
         G = nx.generators.random_graphs.erdos_renyi_graph(n=node,p=0.5)
-        
+
     M = nx.to_numpy_array(G)
 
     return M
