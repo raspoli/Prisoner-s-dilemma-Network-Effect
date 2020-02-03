@@ -113,12 +113,11 @@ def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
     
     
     
-    return S
+    return np.nan_to_num(S)
         
 
 
 # In[21]:
-
 
 ### strategy = cc,cd,dc,dd
 strategy_list = ['0000','0001','0010','0011','0100','0101',
