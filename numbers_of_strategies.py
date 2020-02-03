@@ -16,7 +16,11 @@ def area(strategy_list):
     '''
     distribution = []
     unique_elements, counts_elements = np.unique(strategy_list, return_counts=True)
-    distribution.append(np.asarray((unique_elements, counts_elements)))
 
-    return distribution
+    distribution.append(np.asarray((unique_elements, counts_elements)))
+    L=np.zeros(16)
+    for i in range(len(ss[0][0])):
+        L[distribution[0][0][i]]+=distribution[0][1][i]
+    
+    return L
 
