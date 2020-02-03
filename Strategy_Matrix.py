@@ -44,7 +44,7 @@ def Reward(S1,S2):
     return P
 
 
-# In[14]:
+# In[16]:
 
 
 def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
@@ -71,7 +71,7 @@ def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
         w, v = np.linalg.eig(p)
 
         v = abs((v[:,np.where(w == 1)[0]])/(np.linalg.norm(v[:,np.where(w == 1)[0]],axis = 0,ord=1)))
-        r = np.sum(bonus * v)
+        r = np.mean(bonus * v)
         U.append(r)
     
 ###############################
@@ -83,7 +83,7 @@ def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
         w, v = np.linalg.eig(p)
 
         v = abs((v[:,np.where(w == 1)[0]])/(np.linalg.norm(v[:,np.where(w == 1)[0]],axis = 0,ord=1)))
-        r = np.sum(bonus * v)
+        r = np.mean(bonus * v)
         L.append(r)  
         
 ###############################       
@@ -95,16 +95,17 @@ def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
         w, v = np.linalg.eig(p)
 
         v = abs((v[:,np.where(w == 1)[0]])/(np.linalg.norm(v[:,np.where(w == 1)[0]],axis = 0,ord=1)))
-        r = np.sum(bonus * v)
+        r = np.mean(bonus * v)
         D.append(r)
         
 ###############################
 
     S = np.zeros((l,l))
 
+    S[np.triu_indices(l,1)] = L
+    S = np.transpose(S)
     S[np.triu_indices(l,1)] = U
     np.fill_diagonal(S,D)
-    S[np.tril_indices(l,-1)] = L
     
     
     
@@ -112,7 +113,7 @@ def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
         
 
 
-# In[11]:
+# In[25]:
 
 
 ### strategy = cc,cd,dc,dd
