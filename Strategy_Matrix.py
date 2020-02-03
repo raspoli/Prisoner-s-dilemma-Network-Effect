@@ -10,22 +10,23 @@ from copy import deepcopy
 from sklearn.preprocessing import normalize
 
 
-# In[2]:
+# In[23]:
 
 
 def Reward(S1,S2):
+    ep = 0
     S2 = deepcopy(S2[0] + S2[2] + S2[1] + S2[3])
     P0 = np.zeros((4,4))
     for i in range(8):
         for j in range(4):
             if i == 0:
-                P0[i,j] = int(S1[j]) * int(S2[j])
+                P0[i,j] = abs(int(S1[j])-ep) * abs(int(S2[j])-ep)
             elif i == 1:
-                P0[i,j] = int(S1[j]) * (1-int(S2[j]))
+                P0[i,j] = abs(int(S1[j])-ep) * (1-abs(int(S2[j])-ep))
             elif i == 2:
-                P0[i,j] = (1-int(S1[j])) * int(S2[j])
+                P0[i,j] = (1-abs(int(S1[j])-ep)) * abs(int(S2[j]))
             elif i == 3:
-                P0[i,j] = (1-int(S1[j])) * (1-int(S2[j]))
+                P0[i,j] = (1-abs(int(S1[j])-ep)) * (1-abs(int(S2[j])-ep))
                 
     P = np.concatenate((P0,P0),axis = 1)
     P = np.concatenate((P,P),axis = 0)
@@ -38,13 +39,13 @@ def Reward(S1,S2):
 
     Q = np.transpose(np.concatenate((cc,ot,ot,ot,cc,ot,ot,ot)))
     
-    P = P * Q
+    P_f = P * Q
     
     
-    return P
+    return P_f
 
 
-# In[16]:
+# In[22]:
 
 
 def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
@@ -71,7 +72,8 @@ def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
         w, v = np.linalg.eig(p)
 
         v = abs((v[:,np.where(w == 1)[0]])/(np.linalg.norm(v[:,np.where(w == 1)[0]],axis = 0,ord=1)))
-        r = np.mean(bonus * v)
+        re = bonus * v
+        r = np.mean(re[re!=0])
         U.append(r)
     
 ###############################
@@ -83,7 +85,8 @@ def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
         w, v = np.linalg.eig(p)
 
         v = abs((v[:,np.where(w == 1)[0]])/(np.linalg.norm(v[:,np.where(w == 1)[0]],axis = 0,ord=1)))
-        r = np.mean(bonus * v)
+        re = bonus * v
+        r = np.mean(re[re!=0])
         L.append(r)  
         
 ###############################       
@@ -95,7 +98,8 @@ def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
         w, v = np.linalg.eig(p)
 
         v = abs((v[:,np.where(w == 1)[0]])/(np.linalg.norm(v[:,np.where(w == 1)[0]],axis = 0,ord=1)))
-        r = np.mean(bonus * v)
+        re = bonus * v
+        r = np.mean(re[re!=0])
         D.append(r)
         
 ###############################
@@ -113,7 +117,7 @@ def Strategy_Matrix(strategy_list = ['0000','0001','0010','0011','0100','0101',
         
 
 
-# In[25]:
+# In[21]:
 
 
 ### strategy = cc,cd,dc,dd
