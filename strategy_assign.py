@@ -24,6 +24,16 @@ def strategy_assign(N,strategy_list,frac_list=0):
     S[np.where(S==0)]=strategy_list[np.random.randint(ns)]
     return S
 
+
+def m_strategy_assign(N,strategy_list,frac_list=0):
+    ns=len(strategy_list)
+    if frac_list==0:
+        frac_list=list(np.ones(ns) * 1/ns)
+
+    S = np.random.choice(strategy_list,p = frac_list,size=N)
+
+    return S
+
 n=16
 s_list=[1 ,2 ,3 ,4]
 
