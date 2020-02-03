@@ -41,10 +41,9 @@ def Update(distribution, strategy_list, reward_list , betha):
     evolve_distribution = distribution(difference_list, betha)
     help_probability = np.random.rand(len(evolve_distribution))
     evolve_chance = (evolve_distribution > help_probability)
-
-    #print(np.where(evolve_chance == 1)[0][0])
-    strategy_list[np.where(evolve_chance == 1)[0]][0] = winer_strategy
-   
+    
+    strategy_list[np.where(evolve_chance == 1)[0]] = winer_strategy
+    
     return strategy_list
 
 
