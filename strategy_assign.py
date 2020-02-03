@@ -15,8 +15,16 @@ def strategy_assign(N,strategy_list,frac_list=0):
         frac_list=np.ones(N)
         frac_list*=1/ns
     last=0
+   
     for s in range(ns):
-        S[last:N*frac_list[s]]=strategy_list[s]
-        last=N*frac_list[s]
+        f=int(N*frac_list[s])
+        S[last:f]=strategy_list[s]
+        
+        last=int(N*frac_list[s])
     S[np.where(S==0)]=strategy_list[np.random.randint(ns)]
     return S
+
+n=16
+s_list=[1 ,2 ,3 ,4]
+
+s=strategy_assign(n , s_list , frac_list=0)
