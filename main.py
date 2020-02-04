@@ -8,6 +8,8 @@ from numbers_of_strategies import area
 import matplotlib.pyplot as plt
 from time_distribution import time_distribution
 from plot_final import plot_final
+
+
 #input
 N=int(input("Enter the number of agents: "))
 network_type=int(input("Choose network structure:   1) 2D lattice   2) Erdos-Renyi random graph 3) Watts-Strogatz small-world   4) Barabasi-Albert scale-free\n"))
@@ -32,7 +34,7 @@ total_strat=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 strat = m_strategy_assign(N,total_strat)
 S=Strategy_Matrix()
 dens=np.zeros((len(total_strat),max_seasons))
-d=np.zeros((2,100))
+total_Reward = np.zeros(N)
 
 for seasons in range(max_seasons):
     R=np.zeros(N)
@@ -41,9 +43,8 @@ for seasons in range(max_seasons):
         R[i] = np.sum([S[int(strat_i),int(strat_j)] for strat_j in neighbors_list_strat])
 
     strat = Update(strat,R,beta)
-
-
     dens[:,seasons] = time_distribution(area(strat))
 
+    total_Reward += deepcopy(R) 
 
 plot_final(dens,max_seasons)
