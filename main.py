@@ -14,6 +14,7 @@ from plot_final import plot_final
 N=int(input("Enter the number of agents: "))
 network_type=int(input("Choose network structure:   1) 2D lattice   2) Erdos-Renyi random graph 3) Watts-Strogatz small-world   4) Barabasi-Albert scale-free\n"))
 network_parameter1=network_parameter2=0
+net_name='Barabasi-Albert'
 if network_type==1:
     while np.sqrt(N)!=int(np.sqrt(N)):
         N=int(input("For a 2D lattice N should be square of an integer: "))
@@ -25,8 +26,6 @@ elif network_type==3:
     network_parameter1=float(input("Enter re-routing probability: "))
     network_parameter2=4
     net_name='Small-World'
-else:
-    net_name='Barabasi-Albert'
 beta=float(input("Enter beta:"))
 max_seasons = int(input("total game time:"))
 
@@ -52,4 +51,5 @@ for seasons in range(max_seasons):
     total_Reward += deepcopy(R)
 
 plot_final(dens,max_seasons)
-plt.title('Network type'=net_name)
+plt.title('Network type '+str(net_name)+" N="+str(N)+" Learning rate="+str(beta))
+plt.show()

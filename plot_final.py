@@ -18,5 +18,4 @@ def plot_final(L, max_seasons):
                      '0110','0111','1000','1001','1010','1100',
                      '1011','1101','1110','1111']
     plt.legend(listt, loc='upper right')
-    plt.ylim((0,1.1))
-    plt.show()
+    plt.ylim((0,1.05))
