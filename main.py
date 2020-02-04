@@ -25,7 +25,7 @@ elif network_type==3:
     network_parameter1=float(input("Enter re-routing probability: "))
     network_parameter2=4
     net_name='Small-World'
-else
+else:
     net_name='Barabasi-Albert'
 beta=float(input("Enter beta:"))
 max_seasons = int(input("total game time:"))
