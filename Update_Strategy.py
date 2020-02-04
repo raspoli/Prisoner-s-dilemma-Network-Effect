@@ -20,7 +20,7 @@ def distribution_function(delta_reward, betha):
     '''
     return (1 / (1 + np.exp(-betha * delta_reward)))
 
-def Update(distribution, strategy_list, reward_list , betha):
+def Update(strategy_list, reward_list , betha):
     '''
     update strategies to winner strategiy by distribution
 
@@ -38,12 +38,10 @@ def Update(distribution, strategy_list, reward_list , betha):
     rewards = deepcopy(reward_list)
     max_reward = max(rewards)
     difference_list = np.array(rewards) - max_reward
-    evolve_distribution = distribution(difference_list, betha)
+    evolve_distribution = distribution_function(difference_list, betha)
     help_probability = np.random.rand(len(evolve_distribution))
     evolve_chance = (evolve_distribution > help_probability)
-    
+
     strategy_list[np.where(evolve_chance == 1)[0]] = winer_strategy
-    
+
     return strategy_list
-
-

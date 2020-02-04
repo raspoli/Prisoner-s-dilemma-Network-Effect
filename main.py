@@ -3,8 +3,11 @@ from copy import deepcopy
 from network_generator import network_generator
 from strategy_assign import strategy_assign, m_strategy_assign
 from Strategy_Matrix import Strategy_Matrix
-from Update_Strategy import distribution_function, Update
-
+from Update_Strategy import Update
+from numbers_of_strategies import area
+import matplotlib.pyplot as plt
+from time_distribution import time_distribution
+from plot_final import plot_final
 #input
 N=int(input("Enter the number of agents: "))
 network_type=int(input("Choose network structure:   1) 2D lattice   2) Erdos-Renyi random graph 3) Watts-Strogatz small-world   4) Barabasi-Albert scale-free\n"))
@@ -19,26 +22,28 @@ elif network_type==3:
     network_parameter2=float(input("Enter initial number of neighbors: "))
 beta=float(input("Enter beta:"))
 max_seasons = int(input("total game time:"))
+c=['b','g','r','c','m','y','k','w','gold','cyan','pink','purple','maroon','lime','khaki','brown']
 
 #generate network
 adj=network_generator(network_type, N, network_parameter1, network_parameter2)
 
 #assign strategies
-strat = m_strategy_assign(N,[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+total_strat=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+strat = m_strategy_assign(N,total_strat)
 S=Strategy_Matrix()
-
-R=np.zeros(N)
-
-# def p(delta):
-#     return distribution_function(delta,beta)
-# fig, ax = plt.subplots(2,1)
+dens=np.zeros((len(total_strat),max_seasons))
+d=np.zeros((2,100))
 
 for seasons in range(max_seasons):
+    R=np.zeros(N)
     for i, strat_i in enumerate(strat):
-        # strat_i=strat[i]
-        # neighbors_list=np.where(adj[i,:]==1)
-        # neighbors_list_strat=strat[neighbors_list]
         neighbors_list_strat = strat[np.where(adj[i,:] == 1)[0]]
-        R[i] += np.sum([S[int(strat_i),int(strat_j)] for strat_j in neighbors_list_strat])
-    
-    strat = Update(distribution_function,strat,R,beta)
+        R[i] = np.sum([S[int(strat_i),int(strat_j)] for strat_j in neighbors_list_strat])
+
+    strat = Update(strat,R,beta)
+
+
+    dens[:,seasons] = time_distribution(area(strat))
+
+
+plot_final(dens,max_seasons)
